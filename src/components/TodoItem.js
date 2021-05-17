@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import DeleteImg from '../images/delete.svg'
-import EditImg from '../images/edit.svg'
+import styled from "styled-components";
+import DeleteImg from "../images/delete.svg";
+import PropTypes from "prop-types";
 
-const TodoItem = styled.div`
+const TodoItem = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -10,19 +10,21 @@ const TodoItem = styled.div`
   transition: 0.3s;
 
   &:hover {
-    background-color: #F6F6F6;
+    background-color: #f6f6f6;
   }
-  &:hover Button{
+  &:hover Button {
     opacity: 1;
   }
-`
+`;
+
 const TodoItemContent = styled.div`
   display: flex;
   align-items: center;
-  width: calc(100% - 52px);
+  width: calc(100% - 40px);
   height: 100%;
   color: #555555;
-`
+`;
+
 const TodoItemText = styled.label`
   display: flex;
   align-items: center;
@@ -35,17 +37,20 @@ const TodoItemText = styled.label`
     margin-right: 15px;
   }
 
-  ${props => props.$isDone && `
+  ${(props) =>
+    props.$isDone &&
+    `
     text-decoration: line-through;
     color: #E1E1E1;
   `}
-`
+`;
+
 const TodoCheckbox = styled.div`
   position: relative;
   margin-right: 20px;
   height: 10px;
   width: 10px;
-  border: 1px solid #BBBBBB;
+  border: 1px solid #bbbbbb;
   border-radius: 50%;
   transition: 0.3s;
 
@@ -73,7 +78,9 @@ const TodoCheckbox = styled.div`
     opacity: 0;
     transition: 0.3s;
   }
-  ${props => props.$isDone && `
+  ${(props) =>
+    props.$isDone &&
+    `
     border: 1px solid transparent;
 
     &::before {
@@ -84,10 +91,17 @@ const TodoCheckbox = styled.div`
       opacity: 1;
     }
   `}
-`
+`;
+
+const TodoContent = styled.p`
+  word-break: break-word;
+  width: calc(100% - 32px);
+`;
+
 const TodoButtonWrapper = styled.div`
   display: flex;
-`
+`;
+
 const Button = styled.button`
   display: flex;
   align-items: center;
@@ -109,130 +123,48 @@ const Button = styled.button`
   & + & {
     margin-left: 20px;
   }
-`
-const ModalWrapper = styled.div`
-  z-index: 1;
 
-  ${props => props.$modalIsOpen ? `display: block;` : `display: none;`}
-`
-const ModalBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
-`
-const Modal = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 300px;
-  height: 130px;
-  background-color: #fff;
-`
-const CloseModalButton = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 15px;
-  height: 15px;
-  cursor: pointer;
-  &::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-45deg);
-    width: 3px;
-    height: 15px;
-    background-color: #000;
+  @media screen and (max-width: 768px) {
+    opacity: 1;
   }
-  &::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(45deg);
-    width: 3px;
-    height: 15px;
-    background-color: #000;
-  }
-`
-const ModalInfo = styled.div`
-  display: flex;
-  width: 100%;
-`
-const ModalContent = styled.input`
-  margin-right: 15px;
-  padding: 5px;
-  width: calc(100% - 50px);
-  border: transparent;
-  border-bottom: 1px solid #000;
-  outline: none;
-  font-size: 20px;
-`
-const ModalDoneButton = styled.button`
-  width: 80px;
-  border: 1px solid #858585;
-  border-radius: 20px;
-  background-color: transparent;
-  font-size: 16px;
-  outline: none;
-  cursor: pointer;
-  transition: 0.3s;
+`;
 
-  &:hover {    
-    background-color: #E3E3E3;
-  }
-`
-
-export default function SingleTodoItem({ todo, handleDeleteTodo, handleToggleIsDone, modalIsOpen, handleModalClose, handelModalOpen }) {
+export default function SingleTodoItem({
+  todo,
+  handleDeleteTodo,
+  handleToggleIsDone,
+}) {
   const handleToggleClick = () => {
-    handleToggleIsDone(todo.id)
-  }
+    handleToggleIsDone(todo.id);
+  };
 
   const handleDeleteClick = () => {
-    handleDeleteTodo(todo.id)
-  }
-
-  const handleEditClick = () => {
-    handelModalOpen()
-  }
-
-  const handleCloseEdit = () => {
-    handleModalClose()
-  }
+    handleDeleteTodo(todo.id);
+  };
 
   return (
-    <TodoItem>
-      <ModalWrapper $modalIsOpen={modalIsOpen}>
-        <ModalBackground />
-        <Modal>
-          <CloseModalButton onClick={handleCloseEdit} />
-          <ModalInfo>
-            <ModalContent ></ModalContent>
-            <ModalDoneButton>確定</ModalDoneButton>
-          </ModalInfo>
-        </Modal>
-      </ModalWrapper>
-      <TodoItemContent $data-todo-id={todo.id}>        
+    <TodoItem data-todo-id={todo.id}>
+      <TodoItemContent>
         <TodoItemText $isDone={todo.isDone} onClick={handleToggleClick}>
           <TodoCheckbox $isDone={todo.isDone} />
-          <p>{todo.content}</p>          
+          <TodoContent>{todo.content}</TodoContent>
         </TodoItemText>
       </TodoItemContent>
       <TodoButtonWrapper>
-        <Button onClick={handleEditClick}><img src={EditImg} alt=""/></Button>
-        <Button onClick={handleDeleteClick}><img src={DeleteImg} alt=""/></Button>
+        <Button onClick={handleDeleteClick}>
+          <img src={DeleteImg} alt="" />
+        </Button>
       </TodoButtonWrapper>
     </TodoItem>
-  )
+  );
 }
+
+SingleTodoItem.propTypes = {
+  todo: PropTypes.shape({
+    id: PropTypes.number,
+    isDone: PropTypes.bool,
+    content: PropTypes.string,
+  }),
+  handleDeleteTodo: PropTypes.func,
+  handleToggleIsDone: PropTypes.func,
+};

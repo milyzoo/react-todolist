@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 const GlobalCSS = createGlobalStyle`
   body {
@@ -8,10 +8,8 @@ const GlobalCSS = createGlobalStyle`
   p {
     margin: 0;
   }
-`
+`;
 
 export default function GlobalStyle() {
-  return (
-    <GlobalCSS />
-  );
+  return <GlobalCSS />;
 }
