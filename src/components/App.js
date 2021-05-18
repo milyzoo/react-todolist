@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import TodoList from "./components/TodoList";
-import GlobalStyle from "./components/GlobalStyle";
+import TodoList from "./TodoList";
+import GlobalStyle from "./GlobalStyle";
 
 const Wrapper = styled.div`
   margin: 100px auto 0 auto;
